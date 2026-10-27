@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eco Quest: ภารกิจพิชิตระบบนิเวศ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eaf4e6;--bg2:#d6ecf3;--card:#fffdf6;--ink:#1f3a2c;--mute:#52695c;--green:#2f7d4f;--green-d:#1f5c3a;--sky:#2a87ad;--sand:#f3e7c6;--ok:#2f7d4f;--okbg:#dff2dc;--no:#b4532a;--nobg:#fbe6d6;--line:#c9dcc7;--btnink:#fff;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10241b;--bg2:#0f2a33;--card:#1a3327;--ink:#eaf5e4;--mute:#a9c3b1;--green:#6fc28a;--green-d:#8fd6a6;--sky:#6cc1e3;--sand:#2c3a2a;--ok:#8fd6a6;--okbg:#21432f;--no:#f0a77d;--nobg:#4a2f20;--line:#2f4d3d;--btnink:#10241b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10241b;--bg2:#0f2a33;--card:#1a3327;--ink:#eaf5e4;--mute:#a9c3b1;--green:#6fc28a;--green-d:#8fd6a6;--sky:#6cc1e3;--sand:#2c3a2a;--ok:#8fd6a6;--okbg:#21432f;--no:#f0a77d;--nobg:#4a2f20;--line:#2f4d3d;--btnink:#10241b;color-scheme:dark}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg2),var(--bg) 60%);color:var(--ink);font:400 17px/1.6 'Sarabun',system-ui,sans-serif}
+h1,h2,h3,.btn,.opt{font-family:'Prompt','Sarabun',system-ui,sans-serif}
+main{max-width:700px;margin:0 auto;padding:16px 16px 40px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:22px;position:relative}
+.hidden{display:none!important}
+.strip{font-size:30px;text-align:center;letter-spacing:6px;margin:4px 0 10px}
+h1{font-size:clamp(30px,7vw,44px);line-height:1.15;margin:0 0 4px;color:var(--green-d);text-align:center}
+.sub{text-align:center;color:var(--mute);margin:0 0 16px}
+.how{background:var(--sand);border-radius:16px;padding:12px 18px;margin:0 0 18px}
+.how ul{margin:6px 0;padding-left:20px}
+.btn{display:block;width:100%;min-height:54px;border:0;border-radius:16px;background:var(--green);color:var(--btnink);font-size:19px;font-weight:600;cursor:pointer;padding:12px 18px;margin-top:10px}
+.btn.alt{background:transparent;color:var(--green-d);border:2px solid var(--green)}
+.btn:hover{filter:brightness(1.08)}
+button:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;font-family:'Prompt',sans-serif;font-weight:600}
+.pill{background:var(--sand);border-radius:999px;padding:4px 14px}
+.bar{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin-bottom:16px}
+.bar i{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
+.qrow{display:flex;gap:14px;align-items:flex-start}
+.timer{flex:0 0 64px;width:64px;height:64px;position:relative}
+.timer svg{transform:rotate(-90deg)}
+.timer circle{fill:none;stroke-width:7}
+.timer .bg{stroke:var(--line)}
+.timer .fg{stroke:var(--sky);stroke-linecap:round;transition:stroke .2s}
+.timer.low .fg{stroke:var(--no)}
+.timer b{position:absolute;inset:0;display:grid;place-items:center;font:700 22px 'Prompt',sans-serif}
+.q{font-size:19px;font-weight:600;margin:0}
+.scene{font-size:34px;margin:6px 0 2px}
+.opts{display:grid;gap:10px;margin-top:14px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;width:100%;min-height:54px;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:10px 14px;font-size:17px;font-weight:400;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--sky)}
+.opt .k{flex:0 0 32px;height:32px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-weight:600}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--okbg);border-color:var(--ok)}
+.opt.wrong{background:var(--nobg);border-color:var(--no)}
+.fb{margin-top:14px;border-radius:16px;padding:14px 16px}
+.fb.ok{background:var(--okbg)}.fb.no{background:var(--nobg)}
+.fb h3{margin:0 0 4px;font-size:19px}
+.fb p{margin:4px 0}
+.big{font:700 64px/1 'Prompt',sans-serif;color:var(--green-d);text-align:center;margin:6px 0}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.stat{background:var(--sand);border-radius:14px;padding:10px;text-align:center}
+.stat b{display:block;font:700 28px 'Prompt',sans-serif}
+.msg{text-align:center;font-size:18px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{font-weight:600;width:34%}
+.tag{font-size:13px;color:var(--mute);display:block;font-weight:400}
+h2{margin:0 0 10px;color:var(--green-d)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+
+<section id="start" class="card">
+  <div class="strip" aria-hidden="true">🌿🐝🌸🐅🦌🍄</div>
+  <h1>Eco Quest</h1>
+  <p class="sub">ภารกิจพิชิตระบบนิเวศ</p>
+  <div class="how">
+    <b>วิธีเล่น</b>
+    <ul>
+      <li>มี 10 ข้อ ข้อละ 20 วินาที</li>
+      <li>ตอบถูกได้ข้อละ 10 คะแนน ตอบผิดไม่หักคะแนน</li>
+      <li>ทุกข้อมีเฉลยให้เรียนรู้ต่อ เริ่มจากง่ายไปยาก</li>
+    </ul>
+  </div>
+  <button class="btn" id="goStart">เริ่มภารกิจ</button>
+  <button class="btn alt" id="goSum1">ดูสรุปความรู้</button>
+</section>
+
+<section id="quiz" class="card hidden">
+  <div class="top"><span class="pill" id="num">ข้อ 1/10</span><span class="pill" id="score">คะแนน 0</span></div>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="qrow">
+    <div class="timer" id="timer" role="timer" aria-live="off">
+      <svg width="64" height="64" viewBox="0 0 64 64"><circle class="bg" cx="32" cy="32" r="27"/><circle class="fg" id="ring" cx="32" cy="32" r="27" stroke-dasharray="169.6" stroke-dashoffset="0"/></svg>
+      <b id="sec">20</b>
+    </div>
+    <div><div class="scene" id="scene" aria-hidden="true"></div><p class="q" id="qtext"></p></div>
+  </div>
+  <div class="opts" id="opts"></div>
+  <div class="fb hidden" id="fb" aria-live="polite"></div>
+  <button class="btn hidden" id="next">ข้อต่อไป</button>
+</section>
+
+<section id="result" class="card hidden">
+  <div class="strip" aria-hidden="true">🏆🌱🦋</div>
+  <h2 style="text-align:center">จบภารกิจแล้ว!</h2>
+  <div class="big"><span id="rScore">0</span><small style="font-size:22px">/100</small></div>
+  <div class="stats">
+    <div class="stat"><b id="rOk">0</b>ตอบถูก (ข้อ)</div>
+    <div class="stat"><b id="rNo">0</b>ตอบผิดหรือหมดเวลา (ข้อ)</div>
+  </div>
+  <p class="msg" id="rMsg"></p>
+  <button class="btn" id="again">เล่นอีกครั้ง</button>
+  <button class="btn alt" id="goSum2">ดูสรุปความรู้</button>
+</section>
+
+<section id="summary" class="card hidden">
+  <h2>สรุปความสัมพันธ์ในระบบนิเวศ</h2>
+  <table>
+    <tr><td>ภาวะได้ประโยชน์ร่วมกัน<span class="tag">+ / + แยกกันอยู่ได้</span></td><td>ผึ้งกับดอกไม้ ผึ้งได้น้ำหวาน ดอกไม้ได้ช่วยผสมเกสร</td></tr>
+    <tr><td>ภาวะพึ่งพากัน<span class="tag">+ / + แยกกันอยู่ไม่ได้</span></td><td>ปลวกกับโปรโตซัวในลำไส้ ช่วยกันย่อยเนื้อไม้</td></tr>
+    <tr><td>ภาวะอิงอาศัย<span class="tag">+ / 0</span></td><td>กล้วยไม้เกาะต้นไม้ใหญ่ กล้วยไม้ได้ที่อยู่ ต้นไม้ไม่ได้ไม่เสีย</td></tr>
+    <tr><td>ภาวะปรสิต<span class="tag">+ / −</span></td><td>เห็บดูดเลือดสุนัข ปรสิตได้ประโยชน์ ผู้ถูกอาศัยเสียหาย</td></tr>
+    <tr><td>ภาวะล่าเหยื่อ<span class="tag">+ / −</span></td><td>เสือล่ากวาง ผู้ล่าได้อาหาร เหยื่อถูกกิน</td></tr>
+    <tr><td>ภาวะแก่งแย่งแข่งขัน<span class="tag">− / −</span></td><td>พืชแย่งแสง น้ำ แร่ธาตุ ทำให้ทั้งสองฝ่ายได้น้อยลง</td></tr>
+    <tr><td>สิ่งมีชีวิตกับสิ่งแวดล้อม</td><td>สิ่งมีชีวิตปรับตัวให้อยู่รอดได้ เช่น กระบองเพชรเก็บน้ำและมีหนาม</td></tr>
+    <tr><td>โซ่อาหาร / สายใยอาหาร</td><td>ลูกศรชี้ทิศทางที่พลังงานถ่ายทอดไป จากผู้ผลิตไปสู่ผู้บริโภค</td></tr>
+    <tr><td>ความสมดุล</td><td>ถ้าประชากรชนิดหนึ่งเปลี่ยนไปมาก ชนิดอื่นในสายใยอาหารก็เปลี่ยนตามได้</td></tr>
+  </table>
+  <button class="btn" id="back">กลับ</button>
+</section>
+
+</main>
+<script>
+(function(){
+var TIME=20, ADV=6000;
+var BANK=[
+{t:1,s:"🐝🌸",q:"ผึ้งบินมาดูดน้ำหวานจากดอกไม้ และช่วยพาละอองเรณูไปผสมเกสร ทั้งสองฝ่ายได้ประโยชน์ และแยกกันอยู่ได้ ความสัมพันธ์นี้คือข้อใด",o:["ภาวะได้ประโยชน์ร่วมกัน","ภาวะปรสิต","ภาวะล่าเหยื่อ","ภาวะแก่งแย่งแข่งขัน"],a:0,e:"ผึ้งได้อาหาร ดอกไม้ได้ผสมเกสร ต่างฝ่ายได้ประโยชน์ และถ้าอยู่แยกกันก็ยังมีชีวิตอยู่ได้"},
+{t:1,s:"🐅🦌",q:"เสือไล่ล่ากวางเพื่อกินเป็นอาหาร ความสัมพันธ์นี้คือข้อใด",o:["ภาวะอิงอาศัย","ภาวะล่าเหยื่อ","ภาวะได้ประโยชน์ร่วมกัน","ภาวะแก่งแย่งแข่งขัน"],a:1,e:"เสือเป็นผู้ล่า (ได้ประโยชน์) กวางเป็นเหยื่อ (เสียประโยชน์เพราะถูกกิน)"},
+{t:1,s:"🐕🪲",q:"เห็บเกาะดูดเลือดสุนัขเป็นอาหาร ทำให้สุนัขคัน เสียเลือด และอาจป่วย ความสัมพันธ์นี้คือข้อใด",o:["ภาวะพึ่งพากัน","ภาวะอิงอาศัย","ภาวะปรสิต","ภาวะได้ประโยชน์ร่วมกัน"],a:2,e:"เห็บอาศัยอยู่บนตัวสุนัขและได้อาหารจากสุนัข ส่วนสุนัขเสียประโยชน์ แต่ปกติไม่ได้ถูกฆ่าทันที จึงเป็นภาวะปรสิต"},
+{t:1,s:"🌳🌺",q:"กล้วยไม้เกาะอยู่บนกิ่งต้นไม้ใหญ่เพื่อรับแสงและมีที่อยู่ โดยไม่ได้ดูดอาหารจากต้นไม้ และต้นไม้ไม่ได้รับประโยชน์หรือเสียประโยชน์ ความสัมพันธ์นี้คือข้อใด",o:["ภาวะปรสิต","ภาวะแก่งแย่งแข่งขัน","ภาวะล่าเหยื่อ","ภาวะอิงอาศัย"],a:3,e:"ฝ่ายหนึ่งได้ประโยชน์ (กล้วยไม้) อีกฝ่ายไม่ได้และไม่เสียประโยชน์ (ต้นไม้ใหญ่) จึงเป็นภาวะอิงอาศัย"},
+{t:2,s:"🌲🌱",q:"ในป่าทึบ ต้นไม้หลายต้นงอกใกล้กัน ต้นที่สูงกว่าบังแสง ทำให้ต้นอื่นได้รับแสงน้อยลง ทุกต้นต้องการแสงเหมือนกัน ความสัมพันธ์นี้คือข้อใด",o:["ภาวะอิงอาศัย","ภาวะแก่งแย่งแข่งขัน","ภาวะพึ่งพากัน","ภาวะปรสิต"],a:1,e:"สิ่งมีชีวิตที่ต้องการทรัพยากรเดียวกัน (แสง) ต้องแย่งกัน ทำให้ได้รับน้อยลง จึงเป็นการแก่งแย่งแข่งขัน"},
+{t:2,s:"🐜🔬",q:"ปลวกกินไม้แต่ย่อยเนื้อไม้เองไม่ได้ โปรโตซัวในลำไส้ปลวกช่วยย่อยให้ และได้ที่อยู่กับอาหารจากปลวก ถ้าแยกจากกัน ทั้งสองฝ่ายอยู่ไม่ได้ ความสัมพันธ์นี้คือข้อใด",o:["ภาวะปรสิต","ภาวะอิงอาศัย","ภาวะพึ่งพากัน","ภาวะแก่งแย่งแข่งขัน"],a:2,e:"ต่างฝ่ายได้ประโยชน์ และแยกกันอยู่ไม่ได้ ต่างจากผึ้งกับดอกไม้ที่แยกกันอยู่ได้ จึงเป็นภาวะพึ่งพากัน"},
+{t:2,s:"🌵☀️",q:"กระบองเพชรในทะเลทรายมีลำต้นอวบน้ำเก็บน้ำไว้ และใบเปลี่ยนเป็นหนามเพื่อลดการสูญเสียน้ำ ข้อใดอธิบายได้ถูกต้องที่สุด",o:["พืชกำลังแข่งขันกับพืชชนิดอื่น","พืชปรับตัวให้อยู่รอดในสิ่งแวดล้อมที่แห้งแล้ง","พืชกำลังเป็นปรสิตของดิน","พืชเป็นเหยื่อของสัตว์ในทะเลทราย"],a:1,e:"ลักษณะของกระบองเพชรเกิดจากการปรับตัวให้เหมาะกับสิ่งแวดล้อม ซึ่งเป็นความสัมพันธ์ระหว่างสิ่งมีชีวิตกับสิ่งแวดล้อม"},
+{t:3,s:"🌾🦗🐸🐍",q:"โซ่อาหาร: หญ้า → ตั๊กแตน → กบ → งู ข้อใดถูกต้อง",o:["หญ้าเป็นผู้บริโภคลำดับที่ 1","ตั๊กแตนเป็นผู้ผลิต","งูเป็นผู้บริโภคลำดับที่ 2","กบเป็นผู้บริโภคลำดับที่ 2"],a:3,e:"หญ้าเป็นผู้ผลิต ตั๊กแตนเป็นผู้บริโภคลำดับที่ 1 กบเป็นลำดับที่ 2 และงูเป็นลำดับที่ 3 ลูกศรชี้ทิศทางการถ่ายทอดพลังงาน"},
+{t:3,s:"🐍🐸🦗🌾",q:"ทุ่งหญ้ามีโซ่อาหาร หญ้า → ตั๊กแตน → กบ → งู สมมติว่ากบมีงูเป็นผู้ล่าหลัก ถ้างูถูกจับไปจนเหลือน้อยมาก ผลที่น่าจะเกิดตามมาคือข้อใด",o:["กบลดลง ตั๊กแตนเพิ่มขึ้น","กบเพิ่มขึ้น ตั๊กแตนเพิ่มขึ้น","กบเพิ่มขึ้น ตั๊กแตนลดลง","ทุกชนิดไม่เปลี่ยนแปลง"],a:2,e:"งูลดลงทำให้กบถูกกินน้อยลงจึงเพิ่มขึ้น กบที่มากขึ้นกินตั๊กแตนมากขึ้น ตั๊กแตนจึงลดลง"},
+{t:3,s:"🐅🦌🌿",q:"ป่าแห่งหนึ่งมีเสือ กวาง และพืช คนล่าเสือจนหมดป่า ช่วงแรกกวางเพิ่มมาก ต่อมากวางกินพืชจนเหลือน้อย ผลที่น่าจะเกิดต่อไปคือข้อใด",o:["กวางเพิ่มขึ้นเรื่อย ๆ ไม่มีที่สิ้นสุด","พืชเพิ่มขึ้นเพราะถูกกินน้อยลง","กวางขาดอาหาร จำนวนลดลง และระบบนิเวศเสียสมดุล","ระบบนิเวศยังสมดุลเหมือนเดิม"],a:2,e:"ผู้ล่าช่วยควบคุมจำนวนเหยื่อ เมื่อไม่มีผู้ล่า กวางมากเกินไปจนอาหารไม่พอ จึงอดตาย ความสมดุลของระบบนิเวศจึงสำคัญ"}
+];
+var $=function(i){return document.getElementById(i)};
+var G={qs:[],i:0,score:0,ok:0,locked:true,deadline:0,tick:null,adv:null,prev:'start'};
+var LET=['ก','ข','ค','ง'], C=2*Math.PI*27;
+
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function show(id){['start','quiz','result','summary'].forEach(function(s){$(s).classList.toggle('hidden',s!==id)});window.scrollTo(0,0)}
+function stop(){clearInterval(G.tick);clearTimeout(G.adv)}
+
+function build(){
+  var out=[];
+  [1,2,3].forEach(function(t){out=out.concat(shuf(BANK.filter(function(q){return q.t===t})))});
+  return out.map(function(q){
+    var opts=shuf(q.o.map(function(x,k){return {x:x,r:k===q.a}}));
+    return {s:q.s,q:q.q,e:q.e,o:opts,a:opts.findIndex(function(z){return z.r})};
+  });
+}
+function start(){
+  stop();G.qs=build();G.i=0;G.score=0;G.ok=0;show('quiz');load();
+}
+function load(){
+  var q=G.qs[G.i];G.locked=false;
+  $('num').textContent='ข้อ '+(G.i+1)+'/'+G.qs.length;
+  $('score').textContent='คะแนน '+G.score;
+  $('prog').style.width=(G.i/G.qs.length*100)+'%';
+  $('scene').textContent=q.s;$('qtext').textContent=q.q;
+  $('fb').classList.add('hidden');$('next').classList.add('hidden');
+  var box=$('opts');box.innerHTML='';
+  q.o.forEach(function(o,k){
+    var b=document.createElement('button');b.type='button';b.className='opt';
+    b.innerHTML='<span class="k">'+LET[k]+'</span><span></span>';
+    b.lastChild.textContent=o.x;
+    b.addEventListener('click',function(){answer(k)});
+    box.appendChild(b);
+  });
+  G.deadline=Date.now()+TIME*1000;paint();
+  clearInterval(G.tick);G.tick=setInterval(paint,100);
+}
+function paint(){
+  var left=Math.max(0,G.deadline-Date.now());
+  var s=Math.ceil(left/1000);
+  $('sec').textContent=s;
+  $('ring').setAttribute('stroke-dashoffset',String(C*(1-left/(TIME*1000))));
+  $('timer').classList.toggle('low',s<=5);
+  if(left<=0&&!G.locked)answer(-1);
+}
+function answer(k){
+  if(G.locked)return;G.locked=true;clearInterval(G.tick);
+  var q=G.qs[G.i],btns=$('opts').children,fb=$('fb');
+  for(var n=0;n<btns.length;n++){btns[n].disabled=true;
+    if(n===q.a)btns[n].classList.add('right');
+    else if(n===k)btns[n].classList.add('wrong');}
+  var good=(k===q.a);
+  if(good){G.score+=10;G.ok++;}
+  $('score').textContent='คะแนน '+G.score;
+  var head,cls=good?'ok':'no';
+  if(good)head='🌟 เยี่ยมมาก! ตอบถูกแล้ว';
+  else if(k===-1)head='⏰ หมดเวลาแล้ว ไม่เป็นไรนะ';
+  else head='💪 ไม่เป็นไร ลองดูเฉลยด้วยกัน';
+  fb.className='fb '+cls;fb.innerHTML='';
+  var h=document.createElement('h3');h.textContent=head;fb.appendChild(h);
+  if(!good){var p=document.createElement('p');p.textContent='คำตอบที่ถูกคือ: '+LET[q.a]+' '+q.o[q.a].x;p.style.fontWeight='600';fb.appendChild(p);}
+  var p2=document.createElement('p');p2.textContent=q.e;fb.appendChild(p2);
+  $('next').textContent=(G.i===G.qs.length-1)?'ดูผลคะแนน':'ข้อต่อไป';
+  $('next').classList.remove('hidden');
+  $('prog').style.width=((G.i+1)/G.qs.length*100)+'%';
+  fb.scrollIntoView({block:'nearest',behavior:'smooth'});
+  clearTimeout(G.adv);G.adv=setTimeout(next,ADV);
+}
+function next(){
+  if(!G.locked)return;clearTimeout(G.adv);
+  if(G.i>=G.qs.length-1){finish();return;}
+  G.i++;load();
+}
+function finish(){
+  stop();
+  $('rScore').textContent=G.score;$('rOk').textContent=G.ok;$('rNo').textContent=G.qs.length-G.ok;
+  var m=G.score>=80?'เก่งมาก! คุณเป็นนักสำรวจระบบนิเวศตัวจริง 🌍 เข้าใจว่าสิ่งมีชีวิตพึ่งพากันและต้องรักษาสมดุลไว้'
+    :G.score>=50?'ทำได้ดีเลย! 🌱 อ่านสรุปความรู้อีกนิด แล้วลองเล่นใหม่ จะได้คะแนนสูงขึ้นแน่นอน'
+    :'การผจญภัยเพิ่งเริ่มต้น! 🦋 ทุกเฉลยคือสิ่งใหม่ที่ได้เรียนรู้ ลองอ่านสรุปแล้วกลับมาเล่นอีกครั้งนะ';
+  $('rMsg').textContent=m;show('result');
+}
+function openSum(from){stop();G.prev=from;show('summary')}
+$('goStart').onclick=start;$('again').onclick=start;$('next').onclick=next;
+$('goSum1').onclick=function(){openSum('start')};
+$('goSum2').onclick=function(){openSum('result')};
+$('back').onclick=function(){show(G.prev)};
+})();
+</script>
+</body>
+</html>
